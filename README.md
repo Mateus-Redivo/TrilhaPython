@@ -13,8 +13,8 @@ o primeiro arquivo e como estudar cada módulo.
 ## A trilha
 
 ```mermaid
-flowchart LR
-    M00["00 · Preparação"] --> M01
+flowchart TD
+    M00["00 · Preparação"]
 
     subgraph F ["Fundamentos"]
         direction LR
@@ -36,9 +36,7 @@ flowchart LR
         M13["13 · Estudo de caso CRUD"] --> M14["14 · Projeto integrador"]
     end
 
-    M05 --> M06
-    M09 --> M10
-    M12 --> M13
+    M00 --> F --> D --> R --> C
 ```
 
 ---

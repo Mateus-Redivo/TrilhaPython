@@ -2,9 +2,8 @@
 
 Desde o módulo 03 este material vem fazendo a mesma promessa:
 
-> Digite uma letra quando o programa pedir um número e veja o que acontece: `ValueError`. Por
-> enquanto, combine com o programa: só números. No módulo 10 você vai aprender a tratar isso de
-> verdade.
+> Digite uma letra quando o programa pedir um número e veja o que acontece: `ValueError`.
+>Por enquanto, combine com o programa: só números. No módulo 10 você vai aprender a tratar isso de verdade.
 
 Chegou a hora. A partir daqui seus programas param de morrer por causa de uma digitação.
 
