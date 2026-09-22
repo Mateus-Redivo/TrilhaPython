@@ -17,6 +17,7 @@ Ao final deste módulo você será capaz de:
 - [ ] Buscar com `in`, `find()`, `startswith()` e `endswith()`
 - [ ] Quebrar texto em lista com `split()` e juntar com `join()`
 - [ ] Percorrer uma string caractere a caractere
+- [ ] Verificar o conteúdo de uma string com `isalpha()`, `isdigit()` e afins
 
 ## Pré-requisitos
 
@@ -171,6 +172,52 @@ A solução é a mesma receita de sempre:
 "Zebra".lower() < "ana".lower()     # False — agora é a ordem esperada
 ```
 
+### Perguntar o que tem dentro da string
+
+Além de transformar e buscar, dá para **perguntar** para a string (ou para um caractere dela) que
+tipo de conteúdo ela tem. São métodos que devolvem `True` ou `False`, e todos terminam em `is`:
+
+| Método | Pergunta |
+| --- | --- |
+| `.isalpha()` | é só letra? |
+| `.isdigit()` | é só dígito (0-9)? |
+| `.isnumeric()` | é numérico? (inclui `.isdigit()` e mais alguns casos, como frações) |
+| `.isalnum()` | é letra ou dígito, sem símbolo nem espaço? |
+| `.isspace()` | é só espaço em branco? |
+| `.isupper()` / `.islower()` | está tudo em maiúsculas / minúsculas? |
+
+```python
+"maria".isalpha()      # True
+"maria123".isalpha()   # False — tem dígito
+
+"45999991234".isdigit()   # True
+"45,5".isdigit()          # False — vírgula não é dígito
+"-10".isdigit()           # False — sinal também não conta
+```
+
+Repare que, assim como `upper()` e `lower()`, esses métodos podem ser chamados tanto na string
+inteira quanto em cada caractere dela — é assim que se conta letras e dígitos separadamente:
+
+```python
+frase = "Python 2026"
+letras = 0
+digitos = 0
+
+for caractere in frase:
+    if caractere.isalpha():
+        letras += 1
+    elif caractere.isdigit():
+        digitos += 1
+```
+
+Use `.isdigit()` para conferir que uma entrada numérica (telefone, CEP, código) só tem números
+antes de converter com `int()` — é a forma de evitar um `ValueError` sem ainda usar `try/except`
+(módulo 10). E use `.isalpha()` quando quiser separar letras de números, espaços e pontuação, como
+no desafio do primeiro exercício deste módulo.
+
+> `isdigit()` não aceita sinal (`-10`) nem separador decimal (`3.14`): para esses casos, o
+> `int()`/`float()` direto dentro de um `try/except` é o caminho — assunto do módulo 10.
+
 ## Exemplos guiados
 
 | Arquivo | O que mostra |
@@ -204,6 +251,7 @@ python 01_indices_e_fatias.py
 - [ ] Sei a diferença entre usar `in` e usar `find()`
 - [ ] Transformo uma frase em lista de palavras e de volta em frase
 - [ ] Sei explicar por que `"Zebra" < "ana"` é `True`
+- [ ] Sei por que `"3.14".isdigit()` é `False`
 
 ## Erros comuns
 
@@ -217,6 +265,7 @@ python 01_indices_e_fatias.py
 | `IndexError: string index out of range` | mesma regra da lista: o último índice é `len(texto) - 1` |
 | `split()` com resultado inesperado | sem argumento ele divide por espaços; com `","` divide por vírgula |
 | `join()` com lista de números | `join` só junta textos; converta com `str()` antes |
+| `"-10".isdigit()` ou `"3.14".isdigit()` é `False` | `isdigit()` não aceita sinal nem ponto decimal; serve só para inteiros positivos |
 
 ---
 
