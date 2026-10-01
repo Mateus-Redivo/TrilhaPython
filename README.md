@@ -104,3 +104,10 @@ Como avaliar e ser avaliado: [rubrica de avaliação](material-apoio/rubrica-ava
 
 Material de aula de lógica de programação, mantido por
 [Mateus Redivo](https://github.com/Mateus-Redivo). Use, adapte e leve para a sua turma.
+
+## Licença
+
+- **Conteúdo** (textos, exercícios e materiais didáticos): [CC BY-NC-SA 4.0](LICENSE-CONTEUDO.md). Uso e adaptação livres com crédito, sem fins comerciais, e compartilhando sob a mesma licença.
+- **Código** (exemplos e scripts): [MIT](LICENSE).
+
+Autor: [Mateus Redivo](https://github.com/Mateus-Redivo).
