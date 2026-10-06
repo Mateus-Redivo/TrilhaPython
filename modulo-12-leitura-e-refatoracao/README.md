@@ -12,6 +12,8 @@ Ao final deste módulo você será capaz de:
 
 - [ ] Ler um código ruim e descrever o que ele faz, sem executá-lo
 - [ ] Nomear os sinais de código que pede refatoração
+- [ ] Trocar números mágicos por constantes nomeadas, no topo do arquivo
+- [ ] Ligar cada sinal ao princípio que ele fere (DRY, KISS, SRP, YAGNI)
 - [ ] Refatorar preservando comportamento, e provar que preservou
 - [ ] Explicar por que refatorar e corrigir bugs não devem andar juntos
 - [ ] Escrever comentários que envelhecem bem
@@ -61,11 +63,137 @@ Você já fez isso no módulo 08, no exercício do monólito. Aqui vira método.
 | Função gigante | ela faz coisas demais; cada bloco quer virar uma função |
 | Código repetido | mudar a regra exige achar todas as cópias |
 | Indentação profunda | três níveis de `if` dentro de `for` dentro de `if` |
-| Números soltos (`0.1`, `100`, `46`) | ninguém sabe de onde vieram |
+| Números soltos (`0.1`, `100`, `46`), os **números mágicos** | ninguém sabe de onde vieram nem o que significam |
 | Comentário explicando *o que* a linha faz | se precisa explicar, o nome está ruim |
 | Precisa de comentário para separar blocos | cada bloco quer ser uma função |
 
 Nenhum é erro. Todos são **atrito**: o código funciona, mas custa caro para entender e mudar.
+
+### Números mágicos
+
+Um **número mágico** é um valor escrito direto no código, sem nome nenhum que diga o que ele
+significa. Quem lê `valor * 1.15` precisa adivinhar: é imposto? comissão? margem? E, se a regra
+mudar, é preciso caçar cada `1.15` espalhado pelo arquivo, separando os que significam a regra dos
+que são só coincidência.
+
+```python
+# Antes: o que são 1.15, 1000 e 50?
+def calcular_total(valores):
+    total = 0
+    for valor in valores:
+        if valor < 1000:
+            total = total + valor * 1.15
+        else:
+            total = total + valor * 1.15 + 50
+    return total
+```
+
+```python
+# Depois: constantes no topo do arquivo, com nomes que dizem o que são
+FATOR_IMPOSTO = 1.15        # imposto de 15% sobre cada item
+LIMITE_TAXA_FIXA = 1000     # a partir deste valor, cobra-se a taxa fixa
+TAXA_FIXA = 50              # em reais
+
+
+def calcular_total(valores):
+    total = 0
+    for valor in valores:
+        if valor < LIMITE_TAXA_FIXA:
+            total = total + valor * FATOR_IMPOSTO
+        else:
+            total = total + valor * FATOR_IMPOSTO + TAXA_FIXA
+    return total
+```
+
+As duas versões devolvem o mesmo valor para qualquer lista: é refatoração. E agora a regra do
+imposto está **num lugar só**: mudar de 15% para 18% é editar uma linha.
+
+**A regra, em quatro passos:**
+
+1. **Ache o número e faça a pergunta-teste:** *alguém que não escreveu este código sabe o que esse
+   número significa e de onde ele veio?* Se não, é mágico.
+2. **Dê um nome que diga o que ele significa**, e não o valor: `PERCENTUAL_DESCONTO`, e não
+   `ZERO_VIRGULA_UM`.
+3. **Declare a constante no topo do arquivo**, antes das funções, em MAIÚSCULAS com underscore (a
+   convenção do módulo 01). Assim todas as regras do programa ficam juntas, à vista, num lugar só.
+4. **Troque cada ocorrência pelo nome** e rode a prova: o valor é o mesmo, então a saída tem de ser
+   idêntica.
+
+Três observações:
+
+- **Nem todo número é mágico.** O `0` que inicia um acumulador, o `1` de `contador + 1` e o `2` de
+  `numero % 2 == 0` são óbvios, e dar nome a eles piora a leitura. O mesmo vale ao contrário: **textos
+  soltos que se repetem**, como `"Aprovado"` escrito em cinco lugares, também viram constante. É um
+  dos requisitos do [módulo 14](../modulo-14-projeto-integrador/).
+- **Ler uma constante dentro de uma função não precisa de `global`.** O `global` do módulo 08 só é
+  necessário para **reatribuir** uma variável de fora. Como a constante não muda, qualquer função
+  pode usá-la direto.
+- **A constante pode ter um comentário, e deve:** o nome diz o **que** é, o comentário diz o
+  **porquê** ou a unidade (`# em reais`, `# regra do contrato`). É o comentário que envelhece bem,
+  descrito mais adiante.
+
+### Os princípios por trás dos sinais
+
+Cada linha da tabela acima é um **sintoma**. Quem trabalha com código chama esses sintomas de
+*code smells*, "cheiros de código": você sente que algo está errado antes de saber dizer o quê. O
+que explica **por que** o sintoma incomoda é um **princípio**, e o princípio ajuda a escolher o
+que fazer:
+
+| Princípio | Em uma frase | Sinal que denuncia | O que fazer |
+| --- | --- | --- | --- |
+| **DRY** (*Don't Repeat Yourself*) | cada regra mora num lugar só | código repetido; o mesmo número solto em vários lugares | extrair função, laço ou constante |
+| **KISS** (*Keep It Simple*) | entre duas soluções que funcionam, fique com a mais simples | indentação profunda; `if` que só devolve `True` ou `False` | achatar; devolver a própria condição |
+| **SRP** (*Single Responsibility*) | uma função faz uma coisa, e o nome diz qual | função gigante; função que lê, calcula e imprime | separar em funções |
+| **YAGNI** (*You Aren't Gonna Need It*) | não escreva o que ninguém pediu | parâmetro que nenhuma chamada usa; código que nunca roda | remover, depois de conferir |
+| **Nomes que dizem a intenção** | o nome diz o que a coisa é | nomes de uma letra; comentário que explica o *quê* | renomear |
+
+O SRP você já usou sem saber, no módulo 08: *quem calcula devolve, quem mostra imprime*.
+
+```python
+# Antes: lê, calcula e imprime na mesma função
+def boletim():
+    n1 = float(input("Nota 1: "))
+    n2 = float(input("Nota 2: "))
+    media = (n1 + n2) / 2
+    print(f"Média: {media:.2f}")
+
+
+# Depois: cada função tem um motivo só para mudar
+def ler_nota(mensagem):
+    return float(input(mensagem))
+
+
+def calcular_media(n1, n2):
+    return (n1 + n2) / 2
+
+
+def mostrar_media(media):
+    print(f"Média: {media:.2f}")
+
+
+def boletim():
+    n1 = ler_nota("Nota 1: ")
+    n2 = ler_nota("Nota 2: ")
+    mostrar_media(calcular_media(n1, n2))
+```
+
+Com as mesmas entradas, as duas versões escrevem exatamente a mesma coisa na tela: é refatoração.
+E, se amanhã a média tiver de sair num arquivo, só `mostrar_media` muda.
+
+**Princípios são perguntas, não leis.** Aplicados sem juízo, pioram o código:
+
+- **DRY exagerado.** Se a nota máxima é `10` e o limite de tentativas de senha também é `10`, uma
+  constante `DEZ = 10` para os dois é um erro: são duas regras diferentes, que só *coincidem* no
+  valor, e mudam por motivos diferentes. Duplicação por coincidência não precisa ser desfeita.
+- **KISS não é "curto".** Uma linha cheia de `sum(...)` e `max(...)` pode ser mais difícil de ler que
+  cinco linhas com um laço.
+- **YAGNI não é "dispenso a validação".** Ele vale para recurso que **ninguém pediu**, nunca para
+  requisito. E apagar o que "ninguém usa" só é refatoração **depois** de procurar todas as
+  chamadas.
+
+Uma observação sobre o nome: SRP é a primeira letra do conjunto de cinco princípios chamado
+**SOLID**. As outras quatro (O, L, I, D) falam de classes e de orientação a objetos, que ficam
+além desta trilha. Aqui o SRP vale para **funções**.
 
 ### O que a refatoração não é
 
@@ -170,6 +298,9 @@ desconfortável de propósito: é assim que se chega num código na vida real.
 - [ ] Sei provar que uma refatoração preservou o comportamento
 - [ ] Sei por que refatorar e corrigir não devem andar juntos
 - [ ] Reconheço pelo menos cinco sinais de código que pede refatoração
+- [ ] Sei dizer o que é um número mágico e onde a constante que o substitui deve ficar
+- [ ] Sei ligar cada sinal ao princípio que ele fere (DRY, KISS, SRP, YAGNI)
+- [ ] Sei dar um exemplo de princípio aplicado com exagero
 - [ ] Escrevo comentários que explicam o porquê
 - [ ] Sei dar um exemplo de código que **não** vale a pena refatorar
 
@@ -185,6 +316,10 @@ desconfortável de propósito: é assim que se chega num código na vida real.
 | Comentar o óbvio | `# soma 1 ao contador` não ajuda ninguém |
 | Refatorar código que você não entendeu | entenda primeiro, sempre |
 | Achar que menos funções é mais simples | uma função de 200 linhas não é "simples", é indivisível |
+| Constante com nome que repete o valor (`QUINZE = 15`) | trocou um número mágico por um nome mágico; o nome tem de dizer o que o número **significa** (`FATOR_IMPOSTO`) |
+| Criar a constante mas deixar o número solto em outro ponto | a regra continua em dois lugares; procure todas as ocorrências antes de dar a troca por feita |
+| Juntar duas coisas só porque se parecem (`DEZ = 10`) | repetição por coincidência não é DRY: se uma regra mudar, a outra não deveria mudar junto |
+| Apagar o que "ninguém usa" sem procurar | confira todas as chamadas antes; senão não é refatoração, é quebra |
 
 ---
 
