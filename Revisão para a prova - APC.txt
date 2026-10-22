@@ -1,0 +1,338 @@
+======================================================================
+RESUMO
+======================================================================
+
+parâmetro = nome na definição; argumento = valor na chamada
+print MOSTRA; return DEVOLVE (e encerra a função)
+sem return, a função devolve None
+atribuir dentro da função cria uma variável local
+try: o erro abandona o resto; else: se NÃO deu erro; finally: sempre
+except TipoDoErro: só pega esse tipo; outro derruba o programa
+string não muda no lugar; função que filtra devolve lista nova
+
+
+======================================================================
+EXERCÍCIOS
+======================================================================
+
+----------------------------------------------------------------------
+PARTE 1. Parâmetros, argumentos e valor padrão
+----------------------------------------------------------------------
+
+def cobrar(preco, taxa=5):
+    return preco + preco * taxa / 100
+
+1. Quem é parâmetro e quem é argumento?
+       cobrar(200, 20)
+2. O que imprime?
+       print(cobrar(100), cobrar(100, 20))
+3. Pode ser  def f(taxa=5, preco)?  Por quê?
+4. Para que serve o return?
+   O que a função devolve sem ele?
+
+
+----------------------------------------------------------------------
+PARTE 2. print ou return?
+----------------------------------------------------------------------
+
+def situacao(media):
+    if media >= 6:
+        return "Aprovado"
+    print("Estude mais")
+
+a = situacao(8)
+b = situacao(4)
+print(a, b)
+
+O que aparece na tela, na ordem?
+
+V ou F?
+ I.   toda função devolve algo (nem que seja None)
+ II.  ler uma variável global exige a palavra global
+ III. def f(a=1, b) é válido
+
+
+----------------------------------------------------------------------
+PARTE 3. Variável local e global
+----------------------------------------------------------------------
+
+QUADRO 1                         QUADRO 2
+pontos = 0                       saldo = 100
+def marcar():                    def sacar(v):
+    global pontos                    saldo = saldo - v
+    pontos += 10                     return saldo
+    return pontos
+                                 print(sacar(30))
+marcar()
+marcar()
+print(pontos, marcar())
+
+Qual a saída de cada quadro?
+Como consertar o quadro 2 sem usar global?
+
+
+----------------------------------------------------------------------
+PARTE 4. O return no lugar certo
+----------------------------------------------------------------------
+
+def soma_impares(lista):
+    total = 0
+    for n in lista:
+        if n % 2 == 1:
+            total += n
+        return total
+
+print(soma_impares([2, 5, 7]))
+
+1. O que imprime? Por quê?
+2. Conserte mudando UMA coisa.
+3. Escreva  media(notas):
+   devolve a média da lista
+   devolve 0 se a lista estiver vazia
+
+Teste a sua resposta do item 3 com:  [8, 6, 7]   []   [5, 10]
+
+
+----------------------------------------------------------------------
+PARTE 5. Erros e except por tipo
+----------------------------------------------------------------------
+
+QUADRO 1
+def dividir(a, b):
+    try:
+        r = a / b
+    except ZeroDivisionError:
+        print("divisão por zero")
+        return 0
+    return r
+
+print(dividir(10, 2))
+print(dividir(5, 0))
+print(dividir("7", 2))
+
+1. O que aparece na tela, na ordem?
+2. O terceiro print chega a imprimir? Por quê?
+3. Como tratar os dois erros?
+
+QUADRO 2
+Escreva  ler_idade(texto)  que devolve o número
+inteiro, ou -1 se o texto não for número.
+Teste:  ler_idade("17")  ler_idade("dezessete")  ler_idade("")
+
+
+----------------------------------------------------------------------
+PARTE 6. Funções com listas e strings
+----------------------------------------------------------------------
+
+def contar_pares(lista):
+    n = 0
+    for x in lista:
+        if x % 2 == 0:
+            n += 1
+    return n
+
+def maiusculas(palavras):
+    for p in palavras:
+        p.upper()
+    return palavras
+
+print(contar_pares([4, 7, 10, 3, 8]))
+print(maiusculas(["ana", "bia"]))
+
+1. O que imprime cada print?
+2. maiusculas() faz o que o nome promete? Por quê?
+3. Escreva  so_nomes_longos(nomes, minimo)  que devolve
+   uma lista NOVA só com os nomes de tamanho >= minimo.
+   so_nomes_longos(["Ana", "Marcela", "Léo"], 4)
+
+Teste a sua resposta do item 3 também com [] e com um mínimo que ninguém atinge.
+
+
+----------------------------------------------------------------------
+PARTE 7. Simulado: leia o código e diga a saída
+----------------------------------------------------------------------
+
+(Faça sozinho, sem consulta, em 15 minutos, e só depois corrija.)
+
+A)  def f(x, y=2):
+        return x * y
+    print(f(3), f(3, 4), f(y=5, x=1))
+
+B)  total = 10
+    def g():
+        total = 5
+        return total
+    print(g(), total)
+
+C)  def acha(lista, alvo):
+        for i in range(len(lista)):
+            if lista[i] == alvo:
+                return i
+        return -1
+    print(acha([4, 9, 7], 7), acha([4, 9, 7], 3))
+
+D)  def h(n):
+        try:
+            return 10 // n
+        except ZeroDivisionError:
+            return "erro"
+        finally:
+            print("fim")
+    print(h(5))
+    print(h(0))
+
+
+----------------------------------------------------------------------
+PARTE 8. Cartão de saída: erros e função sem return
+----------------------------------------------------------------------
+
+1.  def dobro(x):
+        print(x * 2)
+
+    r = dobro(4)
+
+    O que aparece na tela e o que r guarda?
+
+2.  try:
+        n = int("abc")
+        print("A")
+    except ValueError:
+        print("B")
+    else:
+        print("C")
+    finally:
+        print("D")
+    print("E")
+
+    O que aparece, na ordem?
+
+
+======================================================================
+GABARITO
+======================================================================
+
+----------------------------------------------------------------------
+PARTE 1
+----------------------------------------------------------------------
+
+1. preco e taxa são PARÂMETROS (nomes na definição). 200 e 20 são
+   ARGUMENTOS (valores na chamada). taxa=5 é o valor padrão.
+2. 105.0 120.0
+   Na primeira chamada taxa vale 5 (padrão): 100 + 5 = 105.0.
+   Na segunda vale 20: 100 + 20 = 120.0.
+3. Não: parâmetro com valor padrão vem DEPOIS dos obrigatórios.
+   Dá SyntaxError.
+4. O return devolve o valor e encerra a função na hora. Sem ele a
+   função devolve None, mesmo que tenha um print.
+
+----------------------------------------------------------------------
+PARTE 2
+----------------------------------------------------------------------
+
+Saída:
+
+   Estude mais
+   Aprovado None
+
+O "Estude mais" aparece DURANTE situacao(4), que imprime e não tem
+return nesse caminho. Por isso b guarda None. a guarda "Aprovado".
+
+- I: Verdadeiro.
+- II: Falso. Para LER não precisa; o global só é necessário para
+  ATRIBUIR um novo valor.
+- III: Falso. Valor padrão vem depois dos obrigatórios.
+
+----------------------------------------------------------------------
+PARTE 3
+----------------------------------------------------------------------
+
+Quadro 1: 20 30
+O primeiro argumento é lido (20) e só então marcar() roda e devolve 30.
+
+Quadro 2: UnboundLocalError
+Como há uma atribuição a saldo dentro da função, o Python trata saldo
+como local, e ela é lida antes de ter valor.
+
+Conserto sem global: passar o valor como parâmetro e devolver o
+resultado.
+
+   def sacar(saldo, v):
+       return saldo - v
+
+   print(sacar(saldo, 30))   # 70
+
+----------------------------------------------------------------------
+PARTE 4
+----------------------------------------------------------------------
+
+1. Imprime 0. O return está DENTRO do for (alinhado com o if): na
+   primeira volta (n = 2, par) a função já devolve total, que ainda
+   é 0.
+2. Recuar o return para o nível do for: ele passa a rodar só depois
+   do laço. Resultado: 12.
+3. def media(notas):
+       if len(notas) == 0:
+           return 0
+       return sum(notas) / len(notas)
+
+   Testes: [8, 6, 7] dá 7.0, [] dá 0 e [5, 10] dá 7.5.
+
+----------------------------------------------------------------------
+PARTE 5
+----------------------------------------------------------------------
+
+Quadro 1:
+1. 5.0, depois "divisão por zero", depois 0.
+2. NÃO. "7" / 2 levanta TypeError, que o except ZeroDivisionError não
+   pega; o programa para com a mensagem de erro.
+3. except (ZeroDivisionError, TypeError):
+   ou dois except, um para cada tipo.
+
+Quadro 2:
+
+   def ler_idade(texto):
+       try:
+           return int(texto)
+       except ValueError:
+           return -1
+
+"17" dá 17; "dezessete" e "" dão -1.
+
+----------------------------------------------------------------------
+PARTE 6
+----------------------------------------------------------------------
+
+1. 3 (os pares são 4, 10 e 8) e ['ana', 'bia'].
+2. NÃO. p.upper() devolve uma string nova, que é descartada; a string
+   original não muda.
+   Conserto: return [p.upper() for p in palavras]
+3. def so_nomes_longos(nomes, minimo):
+       resultado = []
+       for n in nomes:
+           if len(n) >= minimo:
+               resultado.append(n)
+       return resultado
+
+   so_nomes_longos(["Ana", "Marcela", "Léo"], 4) devolve ['Marcela'].
+
+----------------------------------------------------------------------
+PARTE 7
+----------------------------------------------------------------------
+
+A) 6 12 5
+B) 5 10   (o total de dentro é local; o de fora não muda)
+C) 2 -1   (o return -1 fica FORA do laço, depois de procurar em tudo)
+D) Aparece "fim", depois 2; depois "fim", depois "erro".
+   O finally roda ANTES de a função entregar o valor, tanto no
+   caminho normal quanto no do erro.
+
+----------------------------------------------------------------------
+PARTE 8
+----------------------------------------------------------------------
+
+1. Aparece 8 (impresso durante a chamada) e r guarda None, porque a
+   função não tem return.
+2. B, D, E
+   O erro abandona o resto do try (o A nunca aparece), o except roda,
+   o else NÃO roda porque houve erro, o finally roda sempre e depois
+   a execução segue.
