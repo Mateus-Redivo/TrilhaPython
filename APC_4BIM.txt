@@ -1,0 +1,256 @@
+================================================================================
+ALGORITMOS E PROGRAMAÇÃO DE COMPUTADORES (APC)
+================================================================================
+
+APC-01
+Qual é a saída do código?
+
+    nomes = ['Ana', 'Bia', 'Caio', 'Davi', 'Eva']
+    print(nomes[1:4])
+
+A) ['Ana', 'Bia', 'Caio', 'Davi']
+B) ['Bia', 'Caio', 'Davi', 'Eva']
+C) ['Bia', 'Caio', 'Davi']
+D) ['Ana', 'Bia', 'Caio']
+E) ['Bia', 'Davi']
+
+
+APC-02
+Qual é a saída do código?
+
+    palavra = "escola"
+    print(palavra[-2] + palavra[0])
+
+A) le
+B) ae
+C) oe
+D) ls
+E) el
+
+
+APC-03
+Considere o código:
+
+    opcao = input('Continuar? (s/n): ')
+
+    while opcao != 's' or opcao != 'n':
+        print('Opcao invalida!')
+        opcao = input('Continuar? (s/n): ')
+
+    print('Opcao aceita:', opcao)
+
+O que acontece se o usuário digitar s?
+A) Imprime 'Opcao aceita: s', pois s é uma das opções esperadas
+B) Imprime 'Opcao invalida!' uma única vez e depois aceita o s
+C) Dá erro, pois or não pode ser usado em condição de while
+D) O programa termina sem imprimir nada
+E) Imprime 'Opcao invalida!' e volta a perguntar sem parar, pois a
+   condição é verdadeira para qualquer valor digitado
+
+
+APC-04
+Qual é a ordem dos valores impressos?
+
+    def preparar():
+        print("1")
+        servir()
+        print("2")
+
+    def servir():
+        print("3")
+
+    print("4")
+    preparar()
+
+A) 1 / 3 / 2 / 4
+B) 4 / 1 / 3 / 2
+C) 4 / 1 / 2 / 3
+D) 1 / 2 / 3 / 4
+E) Erro, pois servir() é usada antes de ser definida
+
+
+APC-05
+Qual é a saída do código?
+
+    def tem_negativo(lista):
+        for n in lista:
+            if n < 0:
+                return True
+            else:
+                return False
+
+    print(tem_negativo([5, -2, 8]))
+
+A) True
+B) None
+C) -2
+D) False
+E) Erro, pois uma função não pode ter dois return
+
+
+APC-06
+Qual é a saída do código?
+
+    def dobro(x):
+        x * 2
+
+    print(dobro(4))
+
+A) None
+B) 8
+C) 4
+D) 0
+E) Erro, pois a função não tem return
+
+
+APC-07
+Qual valor será impresso?
+
+    soma = 0
+    for i in range(2, 11, 2):
+        soma += i
+    print(soma)
+
+A) 20
+B) 54
+C) 10
+D) 30
+E) 42
+
+
+APC-08
+Qual é a saída do código?
+
+    def zerar(x):
+        x = 0
+
+    valor = 7
+    zerar(valor)
+    print(valor)
+
+A) 0
+B) 7
+C) None
+D) Erro, pois x não existe fora da função
+E) Erro, pois não se pode alterar um parâmetro
+
+
+APC-09
+Qual é a saída do código?
+
+    def potencia(base, expoente=2):
+        return base ** expoente
+
+    print(potencia(3) + potencia(2, 3))
+
+A) 12
+B) 15
+C) 13
+D) Erro, pois falta um argumento na primeira chamada
+E) 17
+
+
+APC-10
+Qual é a saída do código?
+
+    def apresentar(nome, idade):
+        return f"{nome} tem {idade} anos"
+
+    print(apresentar(idade=15, nome="Rui"))
+
+A) 15 tem Rui anos
+B) Erro, pois os argumentos estão fora de ordem
+C) Rui tem 15 anos
+D) nome tem idade anos
+E) None
+
+
+APC-11
+Qual é a saída do código?
+
+    def triplo(n):
+        return n * 3
+
+    def menos_um(n):
+        return n - 1
+
+    print(triplo(menos_um(triplo(2))))
+
+A) 18
+B) 17
+C) 5
+D) 15
+E) 9
+
+
+APC-12
+Qual é a saída do código?
+
+    contador = 0
+
+    def incrementar():
+        global contador
+        contador += 1
+
+    incrementar()
+    incrementar()
+    print(contador)
+
+A) 2
+B) 0
+C) 1
+D) UnboundLocalError
+E) None
+
+
+APC-13
+Qual é a saída do código?
+
+    taxa = 0.1
+
+    def imposto(valor):
+        return valor * taxa
+
+    print(imposto(200))
+
+A) NameError, pois taxa não foi definida dentro da função
+B) 200
+C) 20.0
+D) 0.1
+E) UnboundLocalError, pois taxa é global
+
+
+APC-14
+Qual é a saída do código?
+
+    def adicionar(lista):
+        lista.append(4)
+
+    numeros = [1, 2, 3]
+    adicionar(numeros)
+    print(len(numeros))
+
+A) 3, pois a função trabalha em uma cópia da lista
+B) None, pois a função não tem return
+C) Erro, pois lista não existe fora da função
+D) 1
+E) 4, pois append altera a própria lista recebida
+
+
+APC-15
+Qual valor será impresso?
+
+    n = 10
+    cont = 0
+
+    while n > 1:
+        n = n // 2
+        cont += 1
+
+    print(cont)
+
+A) 2
+B) 3
+C) 4
+D) 5
+E) 10
