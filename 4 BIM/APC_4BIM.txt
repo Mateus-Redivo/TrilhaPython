@@ -1,6 +1,6 @@
-================================================================================
+================================================================
 ALGORITMOS E PROGRAMAÇÃO DE COMPUTADORES (APC)
-================================================================================
+================================================================
 
 APC-01
 Qual é a saída do código?
@@ -32,7 +32,7 @@ APC-03
 Considere o código:
 
     opcao = input('Continuar? (s/n): ')
-
+           
     while opcao != 's' or opcao != 'n':
         print('Opcao invalida!')
         opcao = input('Continuar? (s/n): ')
@@ -44,9 +44,7 @@ A) Imprime 'Opcao aceita: s', pois s é uma das opções esperadas
 B) Imprime 'Opcao invalida!' uma única vez e depois aceita o s
 C) Dá erro, pois or não pode ser usado em condição de while
 D) O programa termina sem imprimir nada
-E) Imprime 'Opcao invalida!' e volta a perguntar sem parar, pois a
-   condição é verdadeira para qualquer valor digitado
-
+E) Imprime 'Opcao invalida!' e volta a perguntar sem parar, pois a condição é verdadeira para qualquer valor digitado
 
 APC-04
 Qual é a ordem dos valores impressos?

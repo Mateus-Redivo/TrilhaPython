@@ -1,0 +1,15 @@
+01 C  A fatia [1:4] pega os índices 1, 2 e 3 (o 4 fica de fora).
+02 A  palavra[-2] é 'l' e palavra[0] é 'e'.
+03 E  Nenhum valor é igual a 's' e a 'n' ao mesmo tempo, então o or é sempre verdadeiro: laço infinito. O correto seria and.
+04 B  Definir não executa; a chamada preparar() imprime 1, chama servir (3) e depois imprime 2.
+05 D  O return do else encerra a função já no primeiro elemento (5).
+06 A  Sem return, a função devolve None.
+07 D  2 + 4 + 6 + 8 + 10 = 30.
+08 B  x é uma variável local; reatribuí-la não altera valor.
+09 E  3**2 = 9 e 2**3 = 8; 9 + 8 = 17.
+10 C  Argumentos nomeados podem vir em qualquer ordem.
+11 D  triplo(2) = 6; menos_um(6) = 5; triplo(5) = 15.
+12 A  global permite alterar a variável global; duas chamadas, valor 2.
+13 C  Ler uma variável global dentro da função é permitido: 200 * 0.1.
+14 E  A função recebe a mesma lista, e append a modifica.
+15 B  n: 10 -> 5 -> 2 -> 1, três repetições.
